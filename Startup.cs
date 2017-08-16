@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using PersonApi.Models;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+using Steeltoe.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace PeopleApi
@@ -22,7 +23,8 @@ namespace PeopleApi
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .AddCloudFoundry();
             Configuration = builder.Build();
         }
 
