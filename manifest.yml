@@ -1,0 +1,6 @@
+---
+applications:
+- name: PeopleApi
+  random-route: true
+  services:
+   - PeopleApiDB
