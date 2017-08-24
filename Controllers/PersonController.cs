@@ -34,7 +34,7 @@ namespace PersonApi.Controllers
             }
         }
 
-
+        // GET api/person
         [HttpGet]
         public IEnumerable<Person> GetAll()
         {
@@ -52,7 +52,42 @@ namespace PersonApi.Controllers
             }
             return new ObjectResult(item);
         }
+        
+        //Post api/person
+        [HttpPost]
+        public IActionResult Create([FromBody] Person item)
+        {
+         if (item == null)
+          {
+           return BadRequest();
+          }
 
+         _context.Person.Add(item);
+         _context.SaveChanges();
+         return CreatedAtRoute("GetPerson", new { id = item.Key }, item);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(long id, [FromBody] Person item)
+        {
+            if (item == null || item.Key != id)
+            {
+                return BadRequest();
+            }
+
+            var Person = _context.Person.Find(id);
+            if (Person == null)
+            {
+                return NotFound();
+            }
+
+            Person.FirstName = item.FirstName;
+            Person.LastName = item.LastName;
+
+            _context.Person.Update(Person);
+            _context.SaveChanges();
+            return new NoContentResult();
+        }
     
    }
 }
